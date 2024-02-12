@@ -2,7 +2,7 @@ import Image from "next/image";
 import ArtArticle from "./ArtArticle";
 
 async function getArt() {
-  const url = `https://api.harvardartmuseums.org/object?sort=random&hasimage=1&fields=primaryimageurl,division,period,classification,technique,description,title,dated,department,people,url&apikey=${process.env.API_KEY}`;
+  const url = `https://api.harvardartmuseums.org/object?sort=random&hasimage=1&fields=primaryimageurl,division,period,classification,technique,description,title,dated,department,people,url&apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
 
   const res = await fetch(url, {
     headers: {
@@ -24,7 +24,7 @@ export default async function ImageGallery() {
 
   return (
     <section className="w-9/12 min-w-[350px]">
-      Image Gallery
+      <h1 className="text-3xl font-bold text-center">Image Gallery</h1>
       <div className="flex flex-wrap">
         {data &&
           data.records.map((obj, index) => {
