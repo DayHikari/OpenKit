@@ -25,7 +25,7 @@ export default async function ImageGallery() {
   return (
     <section className="w-9/12 min-w-[350px]">
       <h1 className="text-3xl font-bold text-center">Image Gallery</h1>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap justify-center">
         {data &&
           data.records.map((obj, index) => {
             return (

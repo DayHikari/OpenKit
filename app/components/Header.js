@@ -6,7 +6,7 @@ export default function Header () {
       <Link href="/" className="font-serif text-lg">
         Home
       </Link>
-      <Link href="/" className="justify-self-end">
+      <Link href="/login" className="justify-self-end">
       Login
       </Link>
     </section>

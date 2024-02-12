@@ -29,8 +29,10 @@ export default function SearchBar() {
     e.preventDefault();
 
     const searchData = new FormData(form.current);
+
     const selectedOption =
       searchData.get("selectedOption") === "Artist" ? "person" : "exact_title";
+      
     const searchValue =
       selectedOption === "person"
         ? searchData.get("searchValue").replace(" ", "-")
