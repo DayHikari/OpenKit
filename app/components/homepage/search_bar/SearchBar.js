@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import ArtArticle from "../image_gallery/ArtArticle";
 
 const getArt = async (url) => {
   const response = await fetch(url, {
@@ -17,11 +18,10 @@ const getArt = async (url) => {
   }
 
   return response.json();
-}
-
+};
 
 export default function SearchBar() {
-  const [searchResults, setSearchResults] = useState(false)
+  const [searchResults, setSearchResults] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const form = useRef();
 
@@ -29,20 +29,26 @@ export default function SearchBar() {
     e.preventDefault();
 
     const searchData = new FormData(form.current);
-    const selectedOption = searchData.get("selectedOption") === "Artist" ? "person" : "exact_title";
-    const searchValue = selectedOption === "person" ? searchData.get("searchValue").replace(" ","-") : searchData.get("searchValue");
+    const selectedOption =
+      searchData.get("selectedOption") === "Artist" ? "person" : "exact_title";
+    const searchValue =
+      selectedOption === "person"
+        ? searchData.get("searchValue").replace(" ", "-")
+        : searchData.get("searchValue");
 
-    const url =`https://api.harvardartmuseums.org/object?hasimage=1&${selectedOption}=${searchValue}&fields=primaryimageurl,division,period,classification,technique,description,title,dated,department,people,url&apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
+    const url = `https://api.harvardartmuseums.org/object?hasimage=1&${selectedOption}=${searchValue}&fields=primaryimageurl,division,period,classification,technique,description,title,dated,department,people,url&apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
 
     const data = await getArt(url);
 
-    data ? setSearchResults(data.records) : setErrorMessage("Error occurred during search, try again later.")
+    data
+      ? setSearchResults(data.records)
+      : setErrorMessage("Error occurred during search, try again later.");
 
     e.target.reset();
   };
 
   return (
-    <div className="text-center mb-10">
+    <div className="text-center mb-10 flex flex-col items-center">
       <h1 className="text-3xl font-bold">Search Something Specific</h1>
       <form
         ref={form}
@@ -68,8 +74,6 @@ export default function SearchBar() {
             required
             id="search_alue"
             className="border-2 border-amber-900 rounded-md ml-2"
-            // onChange={(text) => setSearchValue(text)}
-            // value={searchValue}
           />
         </label>
         <input
@@ -80,6 +84,12 @@ export default function SearchBar() {
         />
       </form>
       {errorMessage && <p className="font-bold text-red-700">{errorMessage}</p>}
+      <div className="flex flex-wrap justify-center w-9/12 min-w-[350px]">
+        {searchResults &&
+          searchResults.map((obj, index) => {
+            return <ArtArticle data={obj} key={`${index}s`} />;
+          })}
+      </div>
     </div>
   );
 }
